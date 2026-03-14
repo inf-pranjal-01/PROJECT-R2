@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PROJECT-R2</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:        #0a0a0b;
+      --surface:   #111114;
+      --border:    #1e1e24;
+      --border-hi: #2e2e38;
+      --text:      #c8c8d4;
+      --muted:     #5a5a6e;
+      --accent:    #e8ff47;
+      --accent2:   #47c8ff;
+      --danger:    #ff5c5c;
+      --warn:      #ffb347;
+      --good:      #47ffaa;
+      --white:     #eeeef5;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 80px 32px 120px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 48px;
+      margin-bottom: 72px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-tag {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(48px, 8vw, 80px);
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span { color: var(--accent); }
+
+    .hero-tagline {
+      font-style: italic;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 300;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      margin-bottom: 72px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    section:nth-child(2)  { animation-delay: 0.05s; }
+    section:nth-child(3)  { animation-delay: 0.10s; }
+    section:nth-child(4)  { animation-delay: 0.15s; }
+    section:nth-child(5)  { animation-delay: 0.20s; }
+    section:nth-child(6)  { animation-delay: 0.25s; }
+    section:nth-child(7)  { animation-delay: 0.30s; }
+    section:nth-child(8)  { animation-delay: 0.35s; }
+    section:nth-child(9)  { animation-delay: 0.40s; }
+    section:nth-child(10) { animation-delay: 0.45s; }
+
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    h2::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    p {
+      color: var(--text);
+      margin-bottom: 16px;
+      max-width: 680px;
+    }
+
+    strong { color: var(--white); font-weight: 600; }
+    em { color: var(--muted); font-style: italic; }
+
+    /* ── INSIGHT BOX ── */
+    .insight-box {
+      background: #0c0e14;
+      border: 1px solid var(--border-hi);
+      border-left: 3px solid var(--accent);
+      padding: 20px 24px;
+      margin: 28px 0;
+    }
+
+    .insight-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .insight-text {
+      font-size: 14px;
+      color: var(--white);
+      line-height: 1.75;
+      margin-bottom: 12px;
+    }
+
+    .insight-answer {
+      font-size: 13px;
+      color: var(--muted);
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── CODE / PRE ── */
+    pre {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--border-hi);
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-size: 12.5px;
+      line-height: 1.7;
+      color: var(--muted);
+      margin: 16px 0;
+    }
+
+    code { font-family: 'JetBrains Mono', monospace; }
+    .key { color: var(--accent2); }
+    .str { color: var(--good); }
+
+    /* ── COMPARE TABLE ── */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+    }
+
+    .compare-table th {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-hi);
+    }
+
+    .compare-table th:first-child { color: var(--danger); }
+    .compare-table th:last-child  { color: var(--good); }
+
+    .compare-table td {
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      font-size: 13px;
+    }
+
+    .compare-table td:first-child { color: var(--muted); }
+    .compare-table td:last-child  { color: var(--text); }
+    .compare-table tr:hover td { background: #0f0f13; }
+
+    /* ── FLOW ── */
+    .flow {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin: 24px 0;
+    }
+
+    .flow-step { display: flex; align-items: flex-start; }
+
+    .flow-connector {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-left: 20px;
+    }
+
+    .flow-connector::before {
+      content: '';
+      width: 1px;
+      height: 24px;
+      background: var(--border-hi);
+      display: block;
+    }
+
+    .flow-node {
+      background: var(--surface);
+      border: 1px solid var(--border-hi);
+      padding: 12px 20px;
+      min-width: 300px;
+    }
+
+    .flow-node-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--white);
+    }
+
+    .flow-node-sub {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    .flow-node.c-accent  { border-color: var(--accent);  }
+    .flow-node.c-accent2 { border-color: var(--accent2); }
+    .flow-node.c-warn    { border-color: var(--warn);    }
+    .flow-node.c-good    { border-color: var(--good);    }
+
+    .flow-node.c-accent  .flow-node-title { color: var(--accent);  }
+    .flow-node.c-accent2 .flow-node-title { color: var(--accent2); }
+    .flow-node.c-warn    .flow-node-title { color: var(--warn);    }
+    .flow-node.c-good    .flow-node-title { color: var(--good);    }
+
+    .flow-label {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      padding: 6px 0 2px 20px;
+      font-family: 'Syne', sans-serif;
+    }
+
+    /* ── BADGE LIST ── */
+    .badge-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 16px 0;
+    }
+
+    .badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .badge.remove   .badge-dot { background: var(--danger); }
+    .badge.compress .badge-dot { background: var(--warn);   }
+    .badge.keep     .badge-dot { background: var(--good);   }
+
+    /* ── MODEL TABLE ── */
+    .model-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    .model-table th {
+      font-family: 'Syne', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .model-table td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .model-table tr:hover td { background: #0f0f13; }
+
+    /* ── ARCH ── */
+    .arch-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin: 20px 0;
+    }
+
+    .arch-module { background: var(--surface); padding: 16px 20px; }
+
+    .arch-module-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .arch-module-desc { color: var(--muted); font-size: 12px; }
+
+    .arch-arrow {
+      text-align: center;
+      color: var(--border-hi);
+      padding: 8px 0;
+      font-size: 18px;
+    }
+
+    .arch-cloud {
+      background: #0d0d10;
+      border: 1px solid var(--border-hi);
+      padding: 16px 20px;
+      text-align: center;
+      margin-top: 1px;
+    }
+
+    .arch-cloud-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent2);
+    }
+
+    .arch-cloud-sub { color: var(--muted); font-size: 12px; margin-top: 4px; }
+
+    /* ── STATUS GRID ── */
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      margin: 20px 0;
+    }
+
+    .status-card {
+      background: var(--surface);
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .status-card-phase {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .status-card-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--white);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      padding: 3px 10px;
+      width: fit-content;
+      margin-top: 4px;
+    }
+
+    .status-pill.active  { background: #1a1f0a; color: var(--accent); border: 1px solid #3a4a10; }
+    .status-pill.pending { background: #111114; color: var(--muted);  border: 1px solid var(--border); }
+
+    .current-banner {
+      background: #0f1208;
+      border: 1px solid #2a3510;
+      border-left: 3px solid var(--accent);
+      padding: 14px 20px;
+      margin: 20px 0;
+      font-size: 13px;
+    }
+
+    .current-banner strong { color: var(--accent); }
+
+    .note-box {
+      background: #0d0f14;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent2);
+      padding: 12px 18px;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 16px;
+    }
+
+    .note-box strong { color: var(--accent2); }
+
+    /* ── PHASE BLOCKS ── */
+    .phase-block { margin-bottom: 48px; }
+
+    .phase-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .phase-badge {
+      font-family: 'Syne', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border: 1px solid;
+    }
+
+    .phase-badge.active  { color: var(--accent); border-color: var(--accent); background: #131508; }
+    .phase-badge.pending { color: var(--muted);  border-color: var(--border); background: transparent; }
+
+    .phase-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--white);
+    }
+
+    .phase-goal {
+      color: var(--muted);
+      font-size: 12.5px;
+      margin-bottom: 14px;
+      padding: 10px 14px;
+      background: var(--surface);
+      border-left: 2px solid var(--border-hi);
+    }
+
+    .stage-table { width: 100%; border-collapse: collapse; }
+
+    .stage-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 12.5px;
+      vertical-align: top;
+    }
+
+    .stage-table td:first-child { color: var(--muted); white-space: nowrap; width: 70px; }
+    .stage-table td:last-child  { width: 120px; text-align: right; }
+
+    .s-done    { color: var(--good);   }
+    .s-active  { color: var(--accent); }
+    .s-pending { color: var(--muted);  }
+
+    /* ── STACK ── */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      margin: 20px 0;
+    }
+
+    .stack-item {
+      background: var(--surface);
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stack-key {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .stack-val {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--white);
+    }
+
+    .stack-note { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    /* ── PHILOSOPHY ── */
+    .philosophy {
+      border-top: 1px solid var(--border);
+      padding-top: 56px;
+      margin-top: 16px;
+    }
+
+    .philosophy-quote {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: var(--white);
+      line-height: 1.5;
+      border-left: 3px solid var(--accent);
+      padding: 16px 24px;
+      margin-bottom: 24px;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin-top: 80px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border-hi); }
+
+    @media (max-width: 600px) {
+      .wrap { padding: 40px 20px 80px; }
+      .stack-grid { grid-template-columns: 1fr; }
+      .status-grid { grid-template-columns: 1fr; }
+      .compare-table { font-size: 12px; }
+      .compare-table td, .compare-table th { padding: 8px 10px; }
+      .flow-node { min-width: unset; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">Open Development · Self-Refining AI Assistant</div>
+    <h1>PROJECT<span>-R2</span></h1>
+    <div class="hero-tagline">Because one pass was never enough.</div>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <p style="color:#2a2a35; font-size:10px; margin-top:40px; max-width:100%;">All         comparisons and observations reflect personal experience and opinion. 
+    
+  PROJECT-R2 is an independent student project developed for learning purposes and is not affiliated with, endorsed by, or associated with any third-party AI company or product. 
+    
+  If you have any concerns regarding attribution, credit, or content removal, please contact: pranjal.tiwari2486@gmail.com.</p>
+
+  <!-- THE OBSERVATION -->
+  <section>
+    <h2>The Observation</h2>
+
+    <p>A raw language model does one thing by default:</p>
+
+    <pre><code>prompt → predict next token → append → predict next token → repeat</code></pre>
+
+    <p>One forward pass. Token by token. No internal review. No second thoughts. Whatever comes out first is what you get.</p>
+
+    <p>I noticed something while using these tools daily. When an answer wasn't good enough, I'd type <em>"revise this"</em> or <em>"improve it further"</em> — and it would. Every single time. A noticeably better answer. It would even explain exactly where the gaps in its first response were.</p>
+
+    <div class="insight-box">
+      <div class="insight-label">The Question That Built This Project</div>
+      <div class="insight-text">If the model can improve its answer when asked to — and can already identify what was wrong with the first one — why didn't it just give the better answer from the start?</div>
+      <div class="insight-answer">Because nothing asked it to. The interface delivered the first draft and called it done.</div>
+    </div>
+
+    <p>The model isn't broken. The model is capable of significantly better than its first response. The problem is that every mainstream AI interface stops at one pass and hands you the draft.</p>
+
+    <p><strong>PROJECT-R2 automates the revision loop you were already doing manually.</strong></p>
+  </section>
+
+  <!-- THE PROBLEM -->
+  <section>
+    <h2>The Problem</h2>
+
+    <p>Beyond the single-pass issue, there's a second wall: these tools have no memory of your work.</p>
+
+    <p>Mid-session, deep into a problem — the AI forgets what was decided three messages ago. Gives a generic answer that ignores the stack you're working with. You re-explain the entire context every time you open a new chat. The longer the session, the more context bleeds out.</p>
+
+    <p>Two separate problems. Both hitting at once. One about quality. One about memory.</p>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Raw ChatGPT / Claude</th>
+          <th>PROJECT-R2</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>First draft is the final answer</td>
+          <td>Internally revised before you ever see it</td>
+        </tr>
+        <tr>
+          <td>No awareness of your project or stack</td>
+          <td>Persistent structured context memory</td>
+        </tr>
+        <tr>
+          <td>Context bleeds out in long sessions</td>
+          <td>Smart compression — nothing critical ever lost</td>
+        </tr>
+        <tr>
+          <td>Same model for every type of task</td>
+          <td>Task-aware model selection per mode</td>
+        </tr>
+        <tr>
+          <td>You manage the thinking manually</td>
+          <td>The system manages the thinking loop</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>The problem isn't the model. The problem is the interface built around it — one that never asks the model to think twice.</p>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section>
+    <h2>How It Works</h2>
+
+    <p>PROJECT-R2 sits between you and the model. Before any answer reaches you, it runs the revision loop internally — the same loop you were running manually, now automated.</p>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-node c-accent2">
+          <div class="flow-node-title">Your Task</div>
+          <div class="flow-node-sub">plain language input + full project context injected</div>
+        </div>
+      </div>
+      <div class="flow-connector"></div>
+      <div class="flow-step">
+        <div class="flow-node c-accent">
+          <div class="flow-node-title">Solver Agent</div>
+          <div class="flow-node-sub">generates first answer</div>
+        </div>
+      </div>
+      <div class="flow-connector"></div>
+      <div class="flow-step">
+        <div class="flow-node c-warn">
+          <div class="flow-node-title">Critic Agent</div>
+          <div class="flow-node-sub">finds flaws, gaps, edge cases — the job you were doing manually</div>
+        </div>
+      </div>
+      <div class="flow-connector"></div>
+      <div class="flow-step">
+        <div class="flow-node">
+          <div class="flow-node-title">Judge Agent</div>
+          <div class="flow-node-sub">scores quality, decides if another pass is needed</div>
+        </div>
+      </div>
+      <div class="flow-connector"></div>
+      <div class="flow-step">
+        <div class="flow-node c-accent">
+          <div class="flow-node-title">Solver Agent</div>
+          <div class="flow-node-sub">revised answer using critique and judgment</div>
+        </div>
+      </div>
+      <div class="flow-label">↺ &nbsp;loop runs up to N times until quality threshold is met</div>
+      <div class="flow-connector"></div>
+      <div class="flow-step">
+        <div class="flow-node c-good">
+          <div class="flow-node-title">Final Answer</div>
+          <div class="flow-node-sub">the only thing you see — already through multiple passes</div>
+        </div>
+      </div>
+    </div>
+
+    <p>This is what AI research calls <em>reflection</em>, <em>debate</em>, and <em>iterative refinement</em> — techniques used in serious AI systems. Most of that logic lives outside the model, orchestrated externally. That's exactly what this is.</p>
+  </section>
+
+  <!-- CONTEXT MEMORY -->
+  <section>
+    <h2>Context Memory System</h2>
+
+    <p>The refinement loop only works well if the model knows your project. Generic context produces generic answers regardless of how many passes run.</p>
+
+    <p>Instead of sending the full conversation history on every call — expensive, slow, hits token limits fast — PROJECT-R2 maintains a <strong>living structured memory</strong> that evolves with your session:</p>
+
+<pre><code>{
+  <span class="key">"project"</span>:          { <span class="key">"name"</span>: <span class="str">""</span>, <span class="key">"stack"</span>: <span class="str">""</span>, <span class="key">"entry_point"</span>: <span class="str">""</span> },
+  <span class="key">"files"</span>:            { <span class="key">"filename"</span>: <span class="str">"one line description"</span> },
+  <span class="key">"decisions"</span>:        [<span class="str">"what was decided + why"</span>],
+  <span class="key">"failed_attempts"</span>:  [<span class="str">"what failed + why"</span>],
+  <span class="key">"working_patterns"</span>: [<span class="str">"what works + how"</span>],
+  <span class="key">"current_task"</span>:     { <span class="key">"goal"</span>: <span class="str">""</span>, <span class="key">"status"</span>: <span class="str">""</span>, <span class="key">"blockers"</span>: <span class="str">""</span> }
+}</code></pre>
+
+    <p>A <strong>Summarizer Agent</strong> reads the conversation every 10 messages and extracts only the facts that affect future answers. Narrative is dropped. Specifics — exact file names, decisions made, what failed and why — are kept.</p>
+
+    <p>When tokens approach the limit, a <strong>Smart Cleanup Agent</strong> categorizes every item in context:</p>
+
+    <div class="badge-list">
+      <div class="badge remove">
+        <div class="badge-dot"></div>
+        <span><strong style="color:var(--danger)">Safe to remove</strong> &nbsp;— old, resolved, superseded decisions</span>
+      </div>
+      <div class="badge compress">
+        <div class="badge-dot"></div>
+        <span><strong style="color:var(--warn)">Safe to compress</strong> &nbsp;— keep the fact, drop the explanation</span>
+      </div>
+      <div class="badge keep">
+        <div class="badge-dot"></div>
+        <span><strong style="color:var(--good)">Never touch</strong> &nbsp;— active files, live decisions, current task</span>
+      </div>
+    </div>
+
+    <p>The agent decides what's safe. You confirm. The session continues without losing anything that matters.</p>
+  </section>
+
+  <!-- TASK-AWARE MODEL SELECTION -->
+  <section>
+    <h2>Task-Aware Model Selection</h2>
+
+    <p>PROJECT-R2 is not a coding-only assistant. Different tasks need different models. When you start a task, you select the mode — the system routes accordingly:</p>
+
+    <table class="model-table">
+      <thead>
+        <tr>
+          <th>Mode</th>
+          <th>Best For</th>
+          <th>Model via OpenRouter</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>🖥️ &nbsp;Coding</td>
+          <td>Architecture, debugging, code review</td>
+          <td>DeepSeek Coder / Claude</td>
+        </tr>
+        <tr>
+          <td>🧠 &nbsp;Reasoning</td>
+          <td>Planning, decisions, analysis</td>
+          <td>Claude / GPT-4o</td>
+        </tr>
+        <tr>
+          <td>✍️ &nbsp;Writing</td>
+          <td>Docs, content, communication</td>
+          <td>Claude / Mistral</td>
+        </tr>
+        <tr>
+          <td>⚡ &nbsp;Quick</td>
+          <td>Fast lookups, simple tasks</td>
+          <td>Mistral 7B / Gemma</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>All models accessed via OpenRouter. Routing handled internally. During development: free tier only. When commercial: model swap requires zero architecture change.</p>
+  </section>
+
+  <!-- ARCHITECTURE -->
+  <section>
+    <h2>Architecture Overview</h2>
+
+    <div class="arch-grid">
+      <div class="arch-module">
+        <div class="arch-module-name">Refinement Module</div>
+        <div class="arch-module-desc">solver → critic → judge → loop · the core of the system</div>
+      </div>
+      <div class="arch-module">
+        <div class="arch-module-name">Memory Module</div>
+        <div class="arch-module-desc">context.json · summarizer agent · living structured memory</div>
+      </div>
+      <div class="arch-module">
+        <div class="arch-module-name">Token Safety Module</div>
+        <div class="arch-module-desc">counter · monitor · smart cleanup agent</div>
+      </div>
+      <div class="arch-module">
+        <div class="arch-module-name">Model Router</div>
+        <div class="arch-module-desc">task-aware model selection · routes per mode at runtime</div>
+      </div>
+    </div>
+
+    <div class="arch-arrow">↓</div>
+
+    <div class="arch-cloud">
+      <div class="arch-cloud-label">Cloud — OpenRouter</div>
+      <div class="arch-cloud-sub">all agents routed via OpenRouter · model selected per task mode</div>
+    </div>
+  </section>
+
+  <!-- CURRENT STATUS -->
+  <section>
+    <h2>Current Development Status</h2>
+
+    <div class="status-grid">
+      <div class="status-card">
+        <div class="status-card-phase">Phase 1</div>
+        <div class="status-card-name">Local System</div>
+        <div class="status-pill active">🔄 &nbsp;In Progress</div>
+      </div>
+      <div class="status-card">
+        <div class="status-card-phase">Phase 2</div>
+        <div class="status-card-name">Backend API</div>
+        <div class="status-pill pending">⬜ &nbsp;Not Started</div>
+      </div>
+      <div class="status-card">
+        <div class="status-card-phase">Phase 3</div>
+        <div class="status-card-name">Personal + Friends Testing</div>
+        <div class="status-pill pending">⬜ &nbsp;Not Started</div>
+      </div>
+      <div class="status-card">
+        <div class="status-card-phase">Phase 4</div>
+        <div class="status-card-name">Frontend</div>
+        <div class="status-pill pending">⬜ &nbsp;Not Started</div>
+      </div>
+      <div class="status-card">
+        <div class="status-card-phase">Phase 5</div>
+        <div class="status-card-name">Deployment</div>
+        <div class="status-pill pending">⬜ &nbsp;Not Started</div>
+      </div>
+      <div class="status-card">
+        <div class="status-card-phase">Phase 6</div>
+        <div class="status-card-name">Production Hardening</div>
+        <div class="status-pill pending">⬜ &nbsp;Not Started</div>
+      </div>
+    </div>
+
+    <div class="current-banner">
+      <strong>Currently on:</strong> &nbsp;Phase 1 → Stage 1 — Refinement Loop<br/>
+      <span style="color:var(--muted); font-size:12px;">Building the core engine. Everything else depends on this working first.</span>
+    </div>
+
+    <div class="note-box">
+      📌 &nbsp;No local models during development. All agents run via <strong>OpenRouter free tier</strong> until the system is proven. Model strategy revisited at Phase 6 if needed for cost optimization at scale.
+    </div>
+  </section>
+
+  <!-- BUILDING PLAN -->
+  <section>
+    <h2>Building Plan</h2>
+
+    <div class="phase-block">
+      <div class="phase-header">
+        <div class="phase-badge active">Phase 1 · Current</div>
+        <div class="phase-title">Local System</div>
+      </div>
+      <div class="phase-goal">Goal: a working self-refining assistant on your own machine. All agents use OpenRouter free tier during this phase.</div>
+      <table class="stage-table">
+        <tbody>
+          <tr><td>Stage 0</td><td>Environment setup — OpenRouter free tier, Python</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 1</td><td>Refinement loop — solver, critic, judge, CLI</td><td class="s-active">🔄 In Progress</td></tr>
+          <tr><td>Stage 2</td><td>Context foundation — context.json, manual updates, loop reads it</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 3</td><td>Auto summarizer — every 10 messages, extracts facts into context</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 4</td><td>Token monitor — counter function, usage logging, warnings</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 5</td><td>Smart cleanup agent — categorize, user confirms, execute</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 6</td><td>Unified CLI — clean interface, commands, session save/load</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 7</td><td>Model routing — task-aware model selection per mode</td><td class="s-pending">⬜ Not Started</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-header">
+        <div class="phase-badge pending">Phase 2</div>
+        <div class="phase-title">Backend API</div>
+      </div>
+      <div class="phase-goal">Goal: turn local scripts into a deployable API.</div>
+      <table class="stage-table">
+        <tbody>
+          <tr><td>Stage 1</td><td>Wrap refinement loop in FastAPI endpoints</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 2</td><td>Session management — create, load, isolate per user</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 3</td><td>Database — Supabase, store sessions, messages, context snapshots</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 4</td><td>API key management — encrypted per user, never exposed</td><td class="s-pending">⬜ Not Started</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-header">
+        <div class="phase-badge pending">Phase 3</div>
+        <div class="phase-title">Personal + Friends Testing</div>
+      </div>
+      <div class="phase-goal">Goal: me and a few known people using it simultaneously without touching each other's data. No public launch. Closed circle only.</div>
+      <table class="stage-table">
+        <tbody>
+          <tr><td>Stage 1</td><td>User registration and login</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 2</td><td>JWT session tokens</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 3</td><td>Full user isolation — context, history, token usage per user</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 4</td><td>Basic rate limiting per user</td><td class="s-pending">⬜ Not Started</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-header">
+        <div class="phase-badge pending">Phase 4</div>
+        <div class="phase-title">Frontend</div>
+      </div>
+      <div class="phase-goal">Goal: someone who doesn't know Python can use PROJECT-R2 comfortably. Designed by me, built with Lovable.</div>
+      <table class="stage-table">
+        <tbody>
+          <tr><td>Stage 1</td><td>Chat interface</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 2</td><td>Live context sidebar</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 3</td><td>Token usage bar</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 4</td><td>Session history + task mode selector</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 5</td><td>Inline cleanup prompts</td><td class="s-pending">⬜ Not Started</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-header">
+        <div class="phase-badge pending">Phase 5</div>
+        <div class="phase-title">Deployment</div>
+      </div>
+      <div class="phase-goal">Goal: publicly accessible via URL.</div>
+      <table class="stage-table">
+        <tbody>
+          <tr><td>Stage 1</td><td>Backend → Render</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 2</td><td>Database → Supabase</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 3</td><td>Frontend → Vercel</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 4</td><td>Scale model strategy if needed</td><td class="s-pending">⬜ Not Started</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-header">
+        <div class="phase-badge pending">Phase 6</div>
+        <div class="phase-title">Production Hardening</div>
+      </div>
+      <div class="phase-goal">Goal: reliable, monitorable, abuse-resistant.</div>
+      <table class="stage-table">
+        <tbody>
+          <tr><td>Stage 1</td><td>Error handling and fallbacks</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 2</td><td>Logging system</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 3</td><td>Token usage dashboard per user</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 4</td><td>Model fallback routing</td><td class="s-pending">⬜ Not Started</td></tr>
+          <tr><td>Stage 5</td><td>Abuse protection</td><td class="s-pending">⬜ Not Started</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </section>
+
+  <!-- STACK -->
+  <section>
+    <h2>Stack</h2>
+    <div class="stack-grid">
+      <div class="stack-item">
+        <div class="stack-key">Models</div>
+        <div class="stack-val">OpenRouter</div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-key">Dev API</div>
+        <div class="stack-val">OpenRouter free tier</div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-key">Backend</div>
+        <div class="stack-val">FastAPI</div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-key">Database</div>
+        <div class="stack-val">Supabase</div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-key">Frontend</div>
+        <div class="stack-val">Lovable AI <span style="color:var(--muted);font-size:11px;font-weight:400;">· TypeScript / React</span></div>
+        <div class="stack-note">Designed by me, built with Lovable</div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-key">Backend Deploy</div>
+        <div class="stack-val">Render</div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-key">Frontend Deploy</div>
+        <div class="stack-val">Vercel</div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-key">Language</div>
+        <div class="stack-val">Python · TypeScript</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY -->
+  <div class="philosophy">
+    <h2>Philosophy</h2>
+    <div class="philosophy-quote">
+      The model is not the product.<br/>
+      The thinking process around the model is the product.
+    </div>
+    <p>Raw LLMs don't think in multiple passes by default. They predict the next token, append it, and repeat — one forward pass, start to finish. But when forced to reflect, critique, and revise, they reliably produce better answers. The research agrees.</p>
+    <p>Reflection, debate, iterative refinement — these are among the most effective techniques in modern AI systems. And most of that logic lives outside the model, orchestrated externally. That's exactly what PROJECT-R2 is.</p>
+    <p style="color:var(--muted);">Not a smarter model. A smarter process wrapped around the model you already use.</p>
+  </div>
+
+  
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span class="footer-name">PROJECT-R2</span>
+    <span>built in public · one stage at a time</span>
+  </div>
+
+</div>
+</body>
+</html>
