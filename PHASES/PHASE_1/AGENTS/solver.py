@@ -8,27 +8,40 @@ from utils.llm_call import API_KEY_SOLVER, API_URL
 
 
 #read solver prompt
-with open(os.path.join(BASE_DIR, "PROMPTS/solver.txt"), "r", encoding="utf-8") as f:
+with open(os.path.join(BASE_DIR, "../PROMPTS/solver.txt"), "r", encoding="utf-8") as f:
     SOLVER_PROMPT = f.read()                                  
 
 
 import requests
 
 
-
+#load session memory
 def load_session_memory():
     solver_last = json.load(open(os.path.join(BASE_DIR, "../SESSION_MEMORY/latest_solver_response.json")))["response"]
     critic_last = json.load(open(os.path.join(BASE_DIR, "../SESSION_MEMORY/latest_critic_response.json")))["response"]
-    judge_last  = json.load(open(os.path.join(BASE_DIR, "../SESSION_MEMORY/latest_judge_response.json")))["response"]
+    judge_last  = open(os.path.join(BASE_DIR, "../SESSION_MEMORY/latest_judge_response.json")).read()
 
     return solver_last, critic_last, judge_last
 
 
 
+     
+
 
 def solver_run(question, user_preference):
     
     solver_last, critic_last, judge_last = load_session_memory()
+
+    try:
+        judge_data = json.loads(judge_last)
+        score      = judge_data["SCORE"]
+        verdict    = judge_data["VERDICT"]
+        reason     = judge_data["REASON"]
+    
+    except:
+     score   =  0
+     verdict = "NOT APPLICABLE, THIS IS FIRST PASS."
+     reason  = "NOT APPLICABLE, THIS IS FIRST PASS."
 
     
     
@@ -41,13 +54,14 @@ def solver_run(question, user_preference):
             {"role": "assistant", "content": solver_last}, # model recognizes this as its own voice
             {"role": "user",      "content": f"""
                             Critic feedback: {critic_last}
-                            Judge verdict:   {judge_last}
+                            Judge verdict: {verdict}
+                            Judge score:   {score}
+                            Judge reason:  {reason}
+
                             Now improve your answer.
-                            """}
+                            """} ],
 
-
-
-        ],
+        "provider": {"zdr": True},
         "max_tokens": 800,
         "temperature": 0.7
     }
@@ -57,10 +71,11 @@ def solver_run(question, user_preference):
         API_URL,
         headers={"Authorization": f"Bearer {API_KEY_SOLVER}"},
         json=payload
+        
     )
     
     result = response.json()
-
+    
     content = result["choices"][0]["message"]["content"]
     usage   = result["usage"]
 

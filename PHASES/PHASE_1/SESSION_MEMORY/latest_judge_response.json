@@ -1,1 +1,5 @@
-{"response": "none"}
+{
+    "SCORE": 70,
+    "VERDICT": "RETRY",
+    "REASON": "The response did not adequately address the critic's feedback. While section labels were present, the analysis remains superficial and lacks specific examples or data to support claims. The conclusion is still ambiguous and does not take a definitive stance on the issue, and the confidence justification is not sufficiently linked to the arguments presented."
+}
