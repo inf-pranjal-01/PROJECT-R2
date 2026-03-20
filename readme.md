@@ -2,4 +2,4 @@
 
 [![PROJECT-R2](./assets/image.png)](https://inf-pranjal-01.github.io/PROJECT-R2/)
 
-> Because one pass was never enough.
+> Because one pass was never enough. (Tap on image above to know more.)
