@@ -77,7 +77,7 @@ def load_session_memory():
         judge_last  = open(os.path.join(BASE_DIR, "SESSION_MEMORY/latest_judge_response.json")).read()    
         return solver_last, critic_last, judge_last
 
-for i in range(3):
+for i in range(6):
 
    
    
