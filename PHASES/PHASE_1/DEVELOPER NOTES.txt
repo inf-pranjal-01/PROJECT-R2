@@ -8,6 +8,7 @@ tracker_state too fields are managed by intent_tracker , for example, register w
 CONTEXT will have primary fields like user_intents, answer_style, facts, 
 THE HUB WILL HAVE DATA FROM OTHER JSONS , IT WILL CONTINUOUSLY READ JUDGES AND CRITICS RESPONSES AND asks that "will solver be more efficient if i gave it bday of user ?"
 
+IN TRACKER :     primary_defaults = load_tracker_state()  # load current tracker state to retain primary keys and their values. We will add new keys from LLM response but we will not delete any existing keys, even if they are not in the LLM response this turn, because they might be relevant for future turns and we want to retain as much information as possible in the tracker state. We will only delete keys if the total number of keys exceed 20, then we will delete the least informative keys (keys with shortest value length) until we have 20 keys in total. This way we ensure that we retain all primary keys and as many dynamic keys as possible while keeping the tracker state manageable for the LLM to process in future turns.
 
 
 
