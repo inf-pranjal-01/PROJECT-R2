@@ -1,0 +1,15 @@
+CONVO DB WILL HAVE only final solver answer and user question 
+
+register could be like given but still, its fields and all can be added by memory_manager (i know its really tough to make its system prompt) , register is more  like a personal diary of user written by memory manager, like any important dates , preferences , anything, (can be further bifercated into agents , but for now lets keep it as it)
+
+
+tracker_state too fields are managed by intent_tracker , for example, register will be cross session memory, intent is more like current chat session only , it sees things like -" is user demanding concise answers here ?" , "are they trying to launch a product ?","should we sugggest them to use business mode ?", "is user gonna ask explanation in each sub topic too?"
+
+CONTEXT will have primary fields like user_intents, answer_style, facts, 
+THE HUB WILL HAVE DATA FROM OTHER JSONS , IT WILL CONTINUOUSLY READ JUDGES AND CRITICS RESPONSES AND asks that "will solver be more efficient if i gave it bday of user ?"
+
+
+
+
+
+TRY TO USE CALUDE CODE ON LOCAL WITH A SCRIPT INCORPORATING PROJECT R2's LOOP.

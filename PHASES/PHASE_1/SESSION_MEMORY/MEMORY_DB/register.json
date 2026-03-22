@@ -1,0 +1,15 @@
+{
+    "last_updated_turn": 0,
+    "last_deep_read_turn": 0,
+    "diary": {"FIELDS TO BE DEFINED": "To be defined based BY MEMORY MANAGER"},
+                
+    "diary1": {
+                    "name": "Pranjal",
+                    "birthday": "...",
+                    "occupation": "developer",
+                    "prefers_concise": true,
+                    "projects": ["PROJECT R2#"],
+                    "interests": ["AI", "gaming", "travel"]
+                 }
+}                                                       
+ 
