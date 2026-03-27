@@ -101,7 +101,7 @@ def run_user_state_tracker(question: str, turn: int):
     tracker_data["last_updated_time"] = now.isoformat()
     
 
-    if len(tracker_data) > 20:  # 20 not 15, gives LLM room
+    if len(tracker_data) > 15:
         
         dynamic_keys = [k for k in tracker_data if k not in primary_defaults]
         
