@@ -221,7 +221,7 @@ Perform deep read and return complete rebuilt register JSON."""
 def run_memory_manager(question : str, turn:int,tracker_state: dict, hub_triggered: bool = False):
 
     # deep read takes priority over regular extract
-    if should_deep_read(question, tracker_state, hub_triggered):
+    if should_deep_read(question, hub_triggered):
         return run_deep_run(turn)
 
     elif should_extract(turn):
