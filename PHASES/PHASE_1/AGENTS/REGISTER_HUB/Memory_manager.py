@@ -48,9 +48,9 @@ def should_extract(turn:int) ->bool:
 def should_deep_read(question: str, tracker_state: dict, hub_triggered: bool = False) -> bool:
 
     # user explicitly says it
-    user_triggers = [
-        "think from start","start over","from scratch",
-        "reset context", "forget everything","start fresh" ]
+
+    user_triggers = ["do a reset", "think from start", "start over",  "reset context", "forget everything", "start fresh"]
+    
     
     user_said = any( t in question.lower() for t in user_triggers)
 
@@ -218,7 +218,7 @@ Perform deep read and return complete rebuilt register JSON."""
     return register
 
 
-def run_memory_manager(question : str, turn:int,tracker_state: dict, hub_triggered: bool = False):
+def run_memory_manager(question : str, turn:int,tracker_state: dict, user_said : bool = False , hub_triggered: bool = False):
 
     # deep read takes priority over regular extract
     if should_deep_read(question, hub_triggered):

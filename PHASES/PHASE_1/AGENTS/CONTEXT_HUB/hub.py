@@ -267,4 +267,4 @@ def build_solver_context_string(hub_data: dict) -> str:
             dynamic_section[k] = hub_data[k]
         parts.append(f"ADDITIONAL CONTEXT:\n{json.dumps(dynamic_section, indent=2)}")
 
-    return "\n\n---\n\n".join(parts)
+    return "\n---\n".join(parts)
