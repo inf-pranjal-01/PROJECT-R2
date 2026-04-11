@@ -1,10 +1,15 @@
 {
-    "meta": {
-        "last_extracted_turn": 0,
-        "last_deep_turn": 0
-            },
-
-    "USER_FACTS": {},
-    
-    "CONVERSATION_FACTS": {}
+  "meta": {
+    "last_extracted_turn": 6,
+    "last_deep_turn": 0
+  },
+  "USER_FACTS": {
+    "name": "SYPHIC",
+    "has_crush_in_class": true,
+    "crush_has_boyfriend": true
+  },
+  "CONVERSATION_FACTS": {
+    "romantic_advice_requested": true,
+    "advice_given": "suggested respectful platonic friendship"
+  }
 }

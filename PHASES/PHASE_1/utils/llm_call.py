@@ -10,5 +10,8 @@ API_URL = "https://openrouter.ai/api/v1/chat/completions"
 MODEL_NAME = "openai/gpt-4o-mini"
 
 API_KEY_USER_STATE_TRACKER = os.getenv("API_KEY_USER_STATE_TRACKER")
+API_KEY_MEMORY_MANAGER = os.getenv("API_KEY_MEMORY_MANAGER")
+API_KEY_HUB = os.getenv("API_KEY_HUB")
+
 MODEL_GROQ_REASONING = "openai/gpt-oss-120b"
 GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"

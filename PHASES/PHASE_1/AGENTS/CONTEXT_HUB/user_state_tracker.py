@@ -10,7 +10,7 @@ from utils.llm_call import API_KEY_USER_STATE_TRACKER, GROQ_API_URL, MODEL_GROQ_
 # paths
 LAST_5_PATH = os.path.join(BASE_DIR, "..", "..", "SESSION_MEMORY", "MEMORY_DB", "Last_5.json")
 USER_TRACKER_STATE_PATH = os.path.join(BASE_DIR, "..", "..", "SESSION_MEMORY", "MEMORY_DB", "User_Tracker_State.json")
-PROMPT_PATH = os.path.join(BASE_DIR, "..", "PROMPTS", "user_state_tracker.txt")
+PROMPT_PATH = os.path.join(BASE_DIR, "..","..", "PROMPTS", "user_state_tracker.txt")
 
 # defining primary keys and defaults for user state
 primary_defaults = {

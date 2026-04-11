@@ -22,7 +22,7 @@ from AGENTS.CONTEXT_HUB.hub import run_hub, build_solver_context_string
 
 
 load_dotenv()
-from PHASES.PHASE_1.AGENTS.CONTEXT_HUB.user_state_tracker import run_user_state_tracker
+
 from utils.llm_call import API_KEY_JUDGE
 
 # EMBEDDING MODEL
@@ -33,9 +33,7 @@ embedding_model = OpenAIEmbeddings(
 )
 
 
-# LOAD PERSONAL SEED FILE
-with open("User_Preference.txt", "r", encoding="utf-8") as f:
-    User_Preference_text = f.read()
+
 
 
 # TEXT SPLITTING FUNCTION (adjust chunk_size and chunk_overlap later more optimally)
@@ -45,15 +43,15 @@ text_splitter = RecursiveCharacterTextSplitter(
 )
 
 
-documents = text_splitter.create_documents([User_Preference_text])
+# documents = text_splitter.create_documents([User_Preference_text])
 
-# VECTOR STORE
-vector_store = FAISS.from_documents(documents, embedding_model)
+# # VECTOR STORE
+# vector_store = FAISS.from_documents(documents, embedding_model)
 
-# RETRIEVAL FUNCTION
-def retrieve_context(query: str, k: int = 3):
-    results = vector_store.similarity_search(query, k=k)
-    return "\n\n".join([doc.page_content for doc in results])
+# # RETRIEVAL FUNCTION
+# def retrieve_context(query: str, k: int = 3):
+#     results = vector_store.similarity_search(query, k=k)
+#     return "\n\n".join([doc.page_content for doc in results])
 
 #load session memory
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -74,13 +72,41 @@ def reset_session_memory():
     with open(os.path.join(BASE_DIR, "SESSION_MEMORY", "latest_judge_response.json"), "w") as f:
         f.write("none")  # raw string for judge
 
+    json.dump({"Last_5_messages": []},
+              open(os.path.join(MEMORY_DB_PATH, "Last_5.json"),"w"))
+
+    json.dump({
+        "session_id": "none",
+        "last_updated_time": "none",
+        "last_updated_turn": 0,
+        "user_intent": "none",
+        "answer_style_needed": "none",
+        "depth_needed": "none",
+        "pacing": "none",
+        "flags": [],
+        "suggestions_for_hub": []
+    }, open(os.path.join(MEMORY_DB_PATH,"user_tracker_state.json"), "w"))
+
+    json.dump({}, open(os.path.join(MEMORY_DB_PATH,"context.json"),"w"))
+
+    json.dump({
+        "meta": {"last_extracted_turn": 0, "last_deep_turn": 0},
+        "USER_FACTS": {},
+        "CONVERSATION_FACTS": {}
+    }, open(os.path.join(MEMORY_DB_PATH, "register.json"),"w",encoding="utf-8"), indent=2)
+
+
+    json.dump({"total_pairs ": 0, "pairs": []},
+              open(os.path.join(BASE_DIR, "SESSION_MEMORY", "CONVERSATION_DB.json"), "w"))
 
 
 
 
-#CLI Input and Preference Retrieval
-question = input()
-user_preference = retrieve_context(question)
+
+
+
+
+
 
 
 
@@ -156,12 +182,11 @@ def update_conversation_db(question: str, final_answer: str, turn: int):
 reset_session_memory()
 
 
-for i in range(6):
 
-   turn = 0
+turn = 0
 
 
-   while True:
+while True:
         question = input("You: \n ").strip()
         if not question:
             continue
@@ -203,27 +228,29 @@ for i in range(6):
         
         final_answer = "none"
 
-        #call agents (real mess)
-        solver_run(question, solver_context)
-        critic_run(question, solver_context)
-        judge_run(question, solver_context)
-        
-        _, _, judge_last = load_session_memory()
-        try:
-            judge_data = json.loads(judge_last)
-            score      = judge_data["SCORE"]
-            verdict    = judge_data["VERDICT"]
-            reason     = judge_data["REASON"]
+        for i in range(6):
+
+            #call agents (real mess)
+            solver_run(question, solver_context)
+            critic_run(question, solver_context)
+            judge_run(question, solver_context)
             
-        except:
-            score   =  0
-            verdict = "Malfunction in Judge, no response."
-            reason  = "Malfunction in Judge, no response."
+            _, _, judge_last = load_session_memory()
+            try:
+                judge_data = json.loads(judge_last)
+                score      = judge_data["SCORE"]
+                verdict    = judge_data["VERDICT"]
+                reason     = judge_data["REASON"]
+                
+            except:
+                score   =  0
+                verdict = "Malfunction in Judge, no response."
+                reason  = "Malfunction in Judge, no response."
 
-        print(f"Round {i+1} | Score: {score} | Verdict: {verdict} | Reason: {reason}")
+            print(f"Round {i+1} | Score: {score} | Verdict: {verdict} | Reason: {reason}")
 
-        if score >= 90 or verdict == "PASS":
-                break
+            if score >= 90 or verdict == "PASS":
+                    break
         
 
 

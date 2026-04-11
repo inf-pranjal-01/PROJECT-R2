@@ -13,8 +13,9 @@ REGISTER_PATH         = os.path.join(BASE_DIR, "..", "..", "SESSION_MEMORY", "ME
 CONVERSATION_DB_PATH  = os.path.join(BASE_DIR,"..","..", "SESSION_MEMORY", "CONVERSATION_DB.json")
 TRACKER_STATE_PATH    = os.path.join(BASE_DIR,"..", "..", "SESSION_MEMORY","MEMORY_DB","User_Tracker_State.json")
 CONTEXT_PATH          = os.path.join(BASE_DIR,"..","..","SESSION_MEMORY","MEMORY_DB","context.json")
-EXTRACT_PROMPT_PATH   = os.path.join(BASE_DIR,"..","PROMPTS", "memory_manager_extract.txt")
-DEEP_PROMPT_PATH      = os.path.join(BASE_DIR,"..","PROMPTS", "memory_manager_DEEP.txt")
+EXTRACT_PROMPT_PATH   = os.path.join(BASE_DIR,"..", "..", "PROMPTS", "memory_manager.txt")
+DEEP_PROMPT_PATH      = os.path.join(BASE_DIR,"..","..", "PROMPTS", "memory_manager_DEEP.txt")
+
 
 with open(EXTRACT_PROMPT_PATH,"r", encoding="utf-8") as f:
     EXTRACT_PROMPT =f.read()
@@ -221,7 +222,7 @@ Perform deep read and return complete rebuilt register JSON."""
 def run_memory_manager(question : str, turn:int,tracker_state: dict, user_said : bool = False , hub_triggered: bool = False):
 
     # deep read takes priority over regular extract
-    if should_deep_read(question, hub_triggered):
+    if should_deep_read(question, tracker_state, hub_triggered):
         return run_deep_run(turn)
 
     elif should_extract(turn):

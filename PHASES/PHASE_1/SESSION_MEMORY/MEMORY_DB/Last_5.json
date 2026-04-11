@@ -1,11 +1,39 @@
 {
-    "Last_5_messages": [
-              {
-                    "turn": 1,
-                    "timestamp": "2026-03-19T10:23:00",
-                    "question": "who is pm of india",
-                    "final_answer": "Narendra Modi...",
-                    "judge_score": 85
-               }
-                        ]
+  "Last_5_messages": [
+    {
+      "turn": 1,
+      "timestamp": "2026-04-11T10:09:43.963839",
+      "question": "hi....who are you ?",
+      "final_answer": "ANSWER:\nI am an AI assistant designed to help you with various tasks and information. I can assist you with math problems, provide summaries of articles, help you learn new languages, and offer recommendations for books or movies. How can I assist you today?\n\nCONFIDENCE:\nhigh",
+      "score": 70
+    },
+    {
+      "turn": 2,
+      "timestamp": "2026-04-11T10:11:28.503979",
+      "question": "i am SYPHIC.",
+      "final_answer": "ANSWER:\nHello SYPHIC! It's great to connect with you. What are some of your favorite hobbies or interests? I'd love to hear about something you're passionate about or a recent experience that stood out to you.\n\nCONFIDENCE:\nhigh",
+      "score": 65
+    },
+    {
+      "turn": 3,
+      "timestamp": "2026-04-11T10:14:06.143360",
+      "question": "what is my name?",
+      "final_answer": "ANSWER:\nYour name is SYPHIC. How can I assist you today, SYPHIC?\n\nCONFIDENCE:\nhigh",
+      "score": 90
+    },
+    {
+      "turn": 4,
+      "timestamp": "2026-04-11T10:19:29.805866",
+      "question": "you know.....i love a girl in my class ....how can i approach her ?",
+      "final_answer": "ANSWER:\nTo approach the girl in your class, consider complimenting her work on a recent assignment or project. For example, you could say, \"I really liked your presentation; you explained the topic so well.\" This shows appreciation for her effort and can lead to further conversation.\n\nCONFIDENCE:\nhigh",
+      "score": 80
+    },
+    {
+      "turn": 5,
+      "timestamp": "2026-04-11T10:21:13.957998",
+      "question": "but she has a boyfriend!",
+      "final_answer": "ANSWER:\nPursuing her romantically is not advisable since she has a boyfriend. It's important to respect their relationship and avoid any actions that could lead to complications or hurt feelings. Instead, focus on building a platonic friendship. You might engage her in discussions about class projects or shared interests, like saying, \"I enjoyed our last class discussion; what did you think about it?\" This way, you can connect without crossing any boundaries. Remember, it's essential to consider the emotional impact on both her and her boyfriend by maintaining a respectful distance.\n\nCONFIDENCE:\nhigh",
+      "score": 75
+    }
+  ]
 }

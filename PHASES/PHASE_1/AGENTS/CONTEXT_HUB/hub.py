@@ -8,10 +8,10 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 from utils.llm_call import API_KEY_HUB,GROQ_API_URL, MODEL_GROQ_REASONING
 
 # paths
-LAST_5_PATH = os.path.join(BASE_DIR, ".." , "..", "SESSION_MEMMORY", "MEMORY_DB", "last_5.json")
-REGISTER_PATH = os.path.join(BASE_DIR, ".." , "..", "SESSION_MEMMORY", "MEMORY_DB", "register.json")
-TRACKER_PATH = os.path.join(BASE_DIR, ".." , "..", "SESSION_MEMMORY", "MEMORY_DB", "user_tracker_state.json")
-CONTEXT_PATH = os.path.join(BASE_DIR, ".." , "..", "SESSION_MEMMORY", "MEMORY_DB", "context.json")
+LAST_5_PATH = os.path.join(BASE_DIR, ".." , "..", "SESSION_MEMORY", "MEMORY_DB", "last_5.json")
+REGISTER_PATH = os.path.join(BASE_DIR, ".." , "..", "SESSION_MEMORY", "MEMORY_DB", "register.json")
+TRACKER_PATH = os.path.join(BASE_DIR, ".." , "..", "SESSION_MEMORY", "MEMORY_DB", "user_tracker_state.json")
+CONTEXT_PATH = os.path.join(BASE_DIR, ".." , "..", "SESSION_MEMORY", "MEMORY_DB", "context.json")
 JUDGE_RESPONSE_PATH = os.path.join(BASE_DIR, "..", "..", "SESSION_MEMORY", "latest_judge_response.json")
 CRITIC_RESPONSE_PATH = os.path.join(BASE_DIR, "..", "..", "SESSION_MEMORY", "latest_critic_response.json")
 SOLVER_RESPONSE_PATH = os.path.join(BASE_DIR, "..", "..", "SESSION_MEMORY", "latest_solver_response.json")
@@ -102,7 +102,7 @@ Assemble the perfect context payload for solver. Return valid JSON only
 
             "max_tokens": 2000,
             "temperature": 0.2,
-            "provider": {"zdr": True}
+
         }
     
     response = requests.post(
@@ -112,6 +112,7 @@ Assemble the perfect context payload for solver. Return valid JSON only
     )
 
     result = response.json()
+    print("HUB API RESPONSE:", result)
     content = result["choices"][0]["message"]["content"]
 
 
